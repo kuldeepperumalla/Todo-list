@@ -19,32 +19,7 @@ export default {
     TodoList  
 
   },
-  data() {
-    return{
-      todos:[
-        {
-          id:1,
-          title:"todo1",
-          compleated:false
-        },
-        {
-          id:2,
-          title:"todo2",
-          compleated:false
-        },
-        {
-          id:3,
-          title:"todo3",
-          compleated:false
-        },
-        {
-          id:4,
-          title:"todo4",
-          compleated:false
-        },
-      ]
-    }
-  }
+  
   
 }
 </script>
