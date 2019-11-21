@@ -1,38 +1,39 @@
 <template>
   <div id="app">
-    <Header></Header>
-    <todo-list></todo-list>
-    
-    
+    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+    <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
+    <Header />
+    <todo-list />
+
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+// import HelloWorld from './components/HelloWorld.vue';
+import Header from './components/Header.vue';
+import TodoList from './components/TodoList.vue'
 
-import Header from './components/Header'
-import TodoList from './components/TodoList'
-
-export default {
-  name: 'app',
+@Component({
   components: {
+    // HelloWorld,
     Header,
-    TodoList  
-
+    TodoList
+    
   },
-  
-  
-}
+})
+export default class App extends Vue {}
 </script>
 
-<style>
-*{
-  box-sizing: border-box;
+<style lang="scss">
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.4;
-}
 </style>
