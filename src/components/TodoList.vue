@@ -48,16 +48,36 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'todo-list',
-  data () {
-    return {
-      newTodo: '',
-      idForTodo: 3,
-      beforeEditCache: '',
-      filter: 'all',
-      todos: [
+
+
+<script lang="ts">
+
+import { Component, Vue } from 'vue-property-decorator';
+import Directive from './Directives';
+
+Component({
+  directives : {
+      Directive
+    }
+})
+interface todolist {
+    id: number,
+    title : string,
+    compleated: boolean,
+    editing: boolean,
+    target: undefined,
+    
+}
+
+export default class TodoList extends Vue {
+
+  // initialData
+
+      newTodo = ''
+      idForTodo = 3
+      beforeEditCache = ''
+      filter = 'all'
+       todos = [
         {
           'id': 1,
           'title': 'Learn Stuff',
@@ -71,16 +91,19 @@ export default {
           'editing': false,
         },
       ]
-    }
-  },
-  computed: {
-    remaining() {
+      
+  
+  // computedProperties
+
+  get remaining() {
       return this.todos.filter(todo => !todo.completed).length
-    },
-    anyRemaining() {
+    }
+  
+  get anyRemaining() {
       return this.remaining != 0
-    },
-    todosFiltered() {
+    }
+  
+  get  todosFiltered() {
       if (this.filter == 'all') {
         return this.todos
       } else if (this.filter == 'active') {
@@ -90,20 +113,12 @@ export default {
       }
 
       return this.todos
-    },
-    showClearCompletedButton() {
+    }
+  get  showClearCompletedButton() {
       return this.todos.filter(todo => todo.completed).length > 0
     }
-  },
-  directives: {
-    focus: {
-      inserted: function (el) {
-        el.focus()
-      }
-    }
-  },
-  methods: {
-    addTodo() {
+
+  addTodo() {
       if (this.newTodo.trim().length == 0) {
         return
       }
@@ -117,33 +132,136 @@ export default {
 
       this.newTodo = ''
       this.idForTodo++
-    },
-    editTodo(todo) {
+    }
+
+     
+
+    editTodo(todo: todolist) {
+      
       this.beforeEditCache = todo.title
       todo.editing = true
-    },
-    doneEdit(todo) {
+    }
+    doneEdit(todo: todolist) {
       if (todo.title.trim() == '') {
         todo.title = this.beforeEditCache
       }
       todo.editing = false
-    },
-    cancelEdit(todo) {
+    }
+    cancelEdit(todo: todolist) {
       todo.title = this.beforeEditCache
       todo.editing = false
-    },
-    removeTodo(index) {
+    }
+    removeTodo(index:number) {
       this.todos.splice(index, 1)
-    },
+    }
     checkAllTodos() {
-      this.todos.forEach((todo) => todo.completed = event.target.checked)
-    },
+     let  event = Event;
+     
+      // this.todos.forEach((todo) => todo.completed = event.target.checked)
+    }
     clearCompleted() {
       this.todos = this.todos.filter(todo => !todo.completed)
     }
-  }
+    
 }
 </script>
+
+
+
+// export default {
+//   name: 'todo-list',
+//   data () {
+//     return {
+//       newTodo: '',
+//       idForTodo: 3,
+//       beforeEditCache: '',
+//       filter: 'all',
+//       todos: [
+//         {
+//           'id': 1,
+//           'title': 'Learn Stuff',
+//           'completed': false,
+//           'editing': false,
+//         },
+//         {
+//           'id': 2,
+//           'title': 'Read a Chapter in book',
+//           'completed': false,
+//           'editing': false,
+//         },
+//       ]
+//     }
+//   },
+//   computed: {
+//     remaining() {
+//       return this.todos.filter(todo => !todo.completed).length
+//     },
+//     anyRemaining() {
+//       return this.remaining != 0
+//     },
+//     todosFiltered() {
+//       if (this.filter == 'all') {
+//         return this.todos
+//       } else if (this.filter == 'active') {
+//         return this.todos.filter(todo => !todo.completed)
+//       } else if (this.filter == 'completed') {
+//         return this.todos.filter(todo => todo.completed)
+//       }
+
+//       return this.todos
+//     },
+//     showClearCompletedButton() {
+//       return this.todos.filter(todo => todo.completed).length > 0
+//     }
+//   },
+//   directives: {
+//     focus: {
+//       inserted: function (el) {
+//         el.focus()
+//       }
+//     }
+//   },
+//   methods: {
+//     addTodo() {
+//       if (this.newTodo.trim().length == 0) {
+//         return
+//       }
+
+//       this.todos.push({
+//         id: this.idForTodo,
+//         title: this.newTodo,
+//         completed: false,
+//         editing: false,
+//       })
+
+//       this.newTodo = ''
+//       this.idForTodo++
+//     },
+//     editTodo(todo) {
+//       this.beforeEditCache = todo.title
+//       todo.editing = true
+//     },
+//     doneEdit(todo) {
+//       if (todo.title.trim() == '') {
+//         todo.title = this.beforeEditCache
+//       }
+//       todo.editing = false
+//     },
+//     cancelEdit(todo) {
+//       todo.title = this.beforeEditCache
+//       todo.editing = false
+//     },
+//     removeTodo(index) {
+//       this.todos.splice(index, 1)
+//     },
+//     checkAllTodos() {
+//       this.todos.forEach((todo) => todo.completed = event.target.checked)
+//     },
+//     clearCompleted() {
+//       this.todos = this.todos.filter(todo => !todo.completed)
+//     }
+//   }
+// }
 
 <style lang="scss">
   @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css");
