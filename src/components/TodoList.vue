@@ -19,7 +19,7 @@
     </transition-group>
 
     <div class="extra-container">
-      <div><label><input type="checkbox" :checked="!anyRemaining" @change="checkAllTodos">
+      <div><label><input type="checkbox" v-bind:checked="!anyRemaining" @change="checkAllTodos">
        Check All
        </label>
        </div>
@@ -35,7 +35,7 @@
         Active
         
         </button>
-        <button :class="{ active: filter == 'completed' }" @click="filter = 'completed'">Completed</button>
+        <button :class="{ active: filter == 'completed' }" @click="(filter) = 'completed'">Completed</button>
       </div>
 
       <div>
@@ -53,30 +53,36 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import Directive from './Directives';
 
-Component({
-  directives : {
-      Directive
-    }
-})
+
 interface todolist {
     id: number,
     title : string,
     compleated: boolean,
     editing: boolean,
     target: undefined,
-    
+
+    todos : 
+        {
+          'id': number,
+          'title': string,
+          'completed': boolean,
+          'editing': boolean,
+        },
+        
+      
 }
-
+    
+@Component
 export default class TodoList extends Vue {
-
+   
   // initialData
 
-      newTodo = ''
-      idForTodo = 3
-      beforeEditCache = ''
-      filter = 'all'
+      newTodo = '';
+      idForTodo = 3;
+      beforeEditCache = '';
+      filter = 'all';
+      
        todos = [
         {
           'id': 1,
@@ -91,9 +97,15 @@ export default class TodoList extends Vue {
           'editing': false,
         },
       ]
-      
   
-  // computedProperties
+  
+  
+  /**
+ * @return "Erer"
+ * @property 
+ * @param {string} title - The title of the book.
+ * @param {string} author - The author of the book.
+ */
 
   get remaining() {
       return this.todos.filter(todo => !todo.completed).length
@@ -122,8 +134,9 @@ export default class TodoList extends Vue {
       if (this.newTodo.trim().length == 0) {
         return
       }
-
+ 
       this.todos.push({
+       
         id: this.idForTodo,
         title: this.newTodo,
         completed: false,
@@ -136,12 +149,12 @@ export default class TodoList extends Vue {
 
      
 
-    editTodo(todo: todolist) {
+    editTodo = (todo: todolist) => {
       
       this.beforeEditCache = todo.title
       todo.editing = true
     }
-    doneEdit(todo: todolist) {
+    doneEdit(todo: todolist)  {
       if (todo.title.trim() == '') {
         todo.title = this.beforeEditCache
       }
@@ -151,13 +164,16 @@ export default class TodoList extends Vue {
       todo.title = this.beforeEditCache
       todo.editing = false
     }
-    removeTodo(index:number) {
-      this.todos.splice(index, 1)
-    }
+    removeTodo = (index: number) => { 
+      this.todos.splice(index, 1);
+      alert("fdfs")
+      }
+    
+    
     checkAllTodos() {
-     let  event = Event;
+    
      
-      // this.todos.forEach((todo) => todo.completed = event.target.checked)
+      this.todos.forEach((todo) =>  todo.completed = event.target.checked)
     }
     clearCompleted() {
       this.todos = this.todos.filter(todo => !todo.completed)
@@ -262,6 +278,7 @@ export default class TodoList extends Vue {
 //     }
 //   }
 // }
+
 
 <style lang="scss">
   @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css");

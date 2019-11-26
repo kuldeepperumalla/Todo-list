@@ -4,6 +4,8 @@
     <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
     <Header />
     <todo-list />
+    
+   
 
   </div>
 </template>
@@ -12,7 +14,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 // import HelloWorld from './components/HelloWorld.vue';
 import Header from './components/Header.vue';
-import TodoList from './components/TodoList.vue'
+import TodoList from './components/TodoList.vue';
 
 @Component({
   components: {
@@ -22,7 +24,7 @@ import TodoList from './components/TodoList.vue'
     
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue { }
 </script>
 
 <style lang="scss">
